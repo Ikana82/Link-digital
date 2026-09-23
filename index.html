@@ -4,107 +4,267 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mega Bundle Worksheet</title>
+
     <style>
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
         min-height: 100vh;
         font-family: Arial, Helvetica, sans-serif;
         background: linear-gradient(135deg, #eef9ff, #fff6fa 55%, #f2fff8);
+
         display: flex;
         justify-content: center;
         align-items: center;
+
         padding: 20px;
       }
+
       .wrap {
         width: min(470px, 100%);
-        background: #fff;
+        background: #ffffff;
+
         border-radius: 28px;
         padding: 18px;
+
         box-shadow: 0 16px 45px rgba(57, 90, 130, 0.15);
+
         text-align: center;
       }
+
       .cover {
         width: 100%;
         display: block;
+
         border-radius: 20px;
+
         margin-bottom: 18px;
       }
+
       .btn {
         width: 100%;
-        border: 0;
+
+        border: none;
         border-radius: 18px;
-        padding: 16px 18px;
+
+        padding: 17px 18px;
+
         margin-top: 10px;
+
         font-size: 18px;
         font-weight: 700;
-        color: white;
+
+        color: #ffffff;
+
         cursor: pointer;
+
+        transition:
+          transform 0.15s ease,
+          opacity 0.15s ease,
+          box-shadow 0.15s ease;
       }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
       .copy {
         background: #ff6f91;
+
+        box-shadow: 0 8px 20px rgba(255, 111, 145, 0.25);
       }
+
       .open {
         background: #39aaf5;
+
+        box-shadow: 0 8px 20px rgba(57, 170, 245, 0.25);
       }
+
       .status {
-        min-height: 24px;
-        margin-top: 14px;
+        min-height: 26px;
+
+        margin-top: 16px;
+
+        font-size: 15px;
         font-weight: 700;
+
         color: #21a366;
+
+        transition: opacity 0.2s ease;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 12px;
+        }
+
+        .wrap {
+          padding: 14px;
+          border-radius: 22px;
+        }
+
+        .btn {
+          font-size: 17px;
+          padding: 16px;
+        }
       }
     </style>
   </head>
+
   <body>
     <main class="wrap">
+      <!-- GAMBAR COVER -->
       <img class="cover" src="cover.png" alt="Mega Bundle Worksheet" />
-      <button class="btn copy" id="copyBtn">📋 COPY LINK</button>
-      <button class="btn open" id="openBtn">↗ OPEN LINK</button>
-      <div class="status" id="status"></div>
+
+      <!-- BUTTON COPY -->
+      <button class="btn copy" id="copyBtn" type="button">📋 COPY LINK</button>
+
+      <!-- BUTTON OPEN -->
+      <button class="btn open" id="openBtn" type="button">↗ OPEN LINK</button>
+
+      <!-- NOTIFIKASI -->
+      <div class="status" id="status" aria-live="polite"></div>
     </main>
 
     <script>
-      // GANTI LINK DI BAWAH INI DENGAN LINK PRODUKMU
+      /*
+      =======================================================
+      LINK PRODUK
+      =======================================================
+      Kalau nanti kamu ingin mengganti link,
+      cukup ubah bagian ini saja.
+      */
+
       const TARGET_URL =
         "https://drive.google.com/drive/folders/13eTB02UmZZLt-lFvZzG9JLmHiLryyF9V";
 
+      /*
+      =======================================================
+      ELEMENT
+      =======================================================
+      */
+
       const copyBtn = document.getElementById("copyBtn");
+
       const openBtn = document.getElementById("openBtn");
+
       const status = document.getElementById("status");
 
+      /*
+      =======================================================
+      CEK LINK
+      =======================================================
+      */
+
+      function linkTersedia() {
+        return (
+          TARGET_URL &&
+          TARGET_URL.trim() !== "" &&
+          TARGET_URL !== "PASTE_LINK_PRODUK_DISINI"
+        );
+      }
+
+      /*
+      =======================================================
+      COPY LINK
+      =======================================================
+      */
+
       copyBtn.addEventListener("click", async () => {
-        if (
-          TARGET_URL ===
-          "https://drive.google.com/drive/folders/13eTB02UmZZLt-lFvZzG9JLmHiLryyF9V"
-        ) {
+        if (!linkTersedia()) {
           status.textContent = "⚠️ Link produk belum diisi.";
+
           status.style.color = "#d88900";
+
           return;
         }
+
         try {
+          /*
+            Cara utama:
+            Clipboard API
+            */
+
           await navigator.clipboard.writeText(TARGET_URL);
-          status.textContent = "✓ Link sudah dicopy!";
-          status.style.color = "#21a366";
-        } catch (err) {
-          const t = document.createElement("textarea");
-          t.value = TARGET_URL;
-          document.body.appendChild(t);
-          t.select();
-          document.execCommand("copy");
-          t.remove();
-          status.textContent = "✓ Link sudah dicopy!";
-          status.style.color = "#21a366";
+
+          tampilkanBerhasilCopy();
+        } catch (error) {
+          /*
+            Fallback jika browser
+            tidak mendukung Clipboard API
+            */
+
+          try {
+            const textarea = document.createElement("textarea");
+
+            textarea.value = TARGET_URL;
+
+            textarea.style.position = "fixed";
+
+            textarea.style.opacity = "0";
+
+            document.body.appendChild(textarea);
+
+            textarea.focus();
+            textarea.select();
+
+            document.execCommand("copy");
+
+            textarea.remove();
+
+            tampilkanBerhasilCopy();
+          } catch (fallbackError) {
+            status.textContent = "Link tidak berhasil dicopy.";
+
+            status.style.color = "#d9534f";
+          }
         }
       });
 
+      /*
+      =======================================================
+      STATUS COPY BERHASIL
+      =======================================================
+      */
+
+      function tampilkanBerhasilCopy() {
+        status.textContent = "✓ Link sudah dicopy!";
+
+        status.style.color = "#21a366";
+
+        copyBtn.textContent = "✓ LINK TERCOPY";
+
+        setTimeout(() => {
+          copyBtn.textContent = "📋 COPY LINK";
+        }, 1800);
+
+        setTimeout(() => {
+          status.textContent = "";
+        }, 4000);
+      }
+
+      /*
+      =======================================================
+      OPEN LINK
+      =======================================================
+      */
+
       openBtn.addEventListener("click", () => {
-        if (TARGET_URL === "PASTE_LINK_PRODUK_DISINI") {
+        if (!linkTersedia()) {
           status.textContent = "⚠️ Link produk belum diisi.";
+
           status.style.color = "#d88900";
+
           return;
         }
+
         window.open(TARGET_URL, "_blank", "noopener,noreferrer");
       });
     </script>
