@@ -1,102 +1,112 @@
 <!doctype html>
 <html lang="id">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mega Bundle Worksheet</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg,#eef9ff,#fff6fa 55%,#f2fff8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .wrap {
-      width: min(470px, 100%);
-      background: #fff;
-      border-radius: 28px;
-      padding: 18px;
-      box-shadow: 0 16px 45px rgba(57,90,130,.15);
-      text-align: center;
-    }
-    .cover {
-      width: 100%;
-      display: block;
-      border-radius: 20px;
-      margin-bottom: 18px;
-    }
-    .btn {
-      width: 100%;
-      border: 0;
-      border-radius: 18px;
-      padding: 16px 18px;
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: 700;
-      color: white;
-      cursor: pointer;
-    }
-    .copy { background: #ff6f91; }
-    .open { background: #39aaf5; }
-    .status {
-      min-height: 24px;
-      margin-top: 14px;
-      font-weight: 700;
-      color: #21a366;
-    }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <img class="cover" src="cover.png" alt="Mega Bundle Worksheet">
-    <button class="btn copy" id="copyBtn">📋 COPY LINK</button>
-    <button class="btn open" id="openBtn">↗ OPEN LINK</button>
-    <div class="status" id="status"></div>
-  </main>
-
-  <script>
-    // GANTI LINK DI BAWAH INI DENGAN LINK PRODUKMU
-    const TARGET_URL = "PASTE_LINK_PRODUK_DISINI";
-
-    const copyBtn = document.getElementById("copyBtn");
-    const openBtn = document.getElementById("openBtn");
-    const status = document.getElementById("status");
-
-    copyBtn.addEventListener("click", async () => {
-      if (TARGET_URL === "PASTE_LINK_PRODUK_DISINI") {
-        status.textContent = "⚠️ Link produk belum diisi.";
-        status.style.color = "#d88900";
-        return;
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mega Bundle Worksheet</title>
+    <style>
+      * {
+        box-sizing: border-box;
       }
-      try {
-        await navigator.clipboard.writeText(TARGET_URL);
-        status.textContent = "✓ Link sudah dicopy!";
-        status.style.color = "#21a366";
-      } catch (err) {
-        const t = document.createElement("textarea");
-        t.value = TARGET_URL;
-        document.body.appendChild(t);
-        t.select();
-        document.execCommand("copy");
-        t.remove();
-        status.textContent = "✓ Link sudah dicopy!";
-        status.style.color = "#21a366";
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #eef9ff, #fff6fa 55%, #f2fff8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
       }
-    });
+      .wrap {
+        width: min(470px, 100%);
+        background: #fff;
+        border-radius: 28px;
+        padding: 18px;
+        box-shadow: 0 16px 45px rgba(57, 90, 130, 0.15);
+        text-align: center;
+      }
+      .cover {
+        width: 100%;
+        display: block;
+        border-radius: 20px;
+        margin-bottom: 18px;
+      }
+      .btn {
+        width: 100%;
+        border: 0;
+        border-radius: 18px;
+        padding: 16px 18px;
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+      }
+      .copy {
+        background: #ff6f91;
+      }
+      .open {
+        background: #39aaf5;
+      }
+      .status {
+        min-height: 24px;
+        margin-top: 14px;
+        font-weight: 700;
+        color: #21a366;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <img class="cover" src="cover.png" alt="Mega Bundle Worksheet" />
+      <button class="btn copy" id="copyBtn">📋 COPY LINK</button>
+      <button class="btn open" id="openBtn">↗ OPEN LINK</button>
+      <div class="status" id="status"></div>
+    </main>
 
-    openBtn.addEventListener("click", () => {
-      if (TARGET_URL === "PASTE_LINK_PRODUK_DISINI") {
-        status.textContent = "⚠️ Link produk belum diisi.";
-        status.style.color = "#d88900";
-        return;
-      }
-      window.open(TARGET_URL, "_blank", "noopener,noreferrer");
-    });
-  </script>
-</body>
+    <script>
+      // GANTI LINK DI BAWAH INI DENGAN LINK PRODUKMU
+      const TARGET_URL =
+        "https://drive.google.com/drive/folders/13eTB02UmZZLt-lFvZzG9JLmHiLryyF9V";
+
+      const copyBtn = document.getElementById("copyBtn");
+      const openBtn = document.getElementById("openBtn");
+      const status = document.getElementById("status");
+
+      copyBtn.addEventListener("click", async () => {
+        if (
+          TARGET_URL ===
+          "https://drive.google.com/drive/folders/13eTB02UmZZLt-lFvZzG9JLmHiLryyF9V"
+        ) {
+          status.textContent = "⚠️ Link produk belum diisi.";
+          status.style.color = "#d88900";
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(TARGET_URL);
+          status.textContent = "✓ Link sudah dicopy!";
+          status.style.color = "#21a366";
+        } catch (err) {
+          const t = document.createElement("textarea");
+          t.value = TARGET_URL;
+          document.body.appendChild(t);
+          t.select();
+          document.execCommand("copy");
+          t.remove();
+          status.textContent = "✓ Link sudah dicopy!";
+          status.style.color = "#21a366";
+        }
+      });
+
+      openBtn.addEventListener("click", () => {
+        if (TARGET_URL === "PASTE_LINK_PRODUK_DISINI") {
+          status.textContent = "⚠️ Link produk belum diisi.";
+          status.style.color = "#d88900";
+          return;
+        }
+        window.open(TARGET_URL, "_blank", "noopener,noreferrer");
+      });
+    </script>
+  </body>
 </html>
